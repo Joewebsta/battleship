@@ -10,4 +10,8 @@ describe Ship do
   it 'has a length' do
     expect(@ship.length).to eql(3)
   end
+
+  it 'has health equal to length' do
+    expect(@ship.health).to eql(@ship.length)
+  end
 end
