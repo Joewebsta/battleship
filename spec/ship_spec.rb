@@ -26,5 +26,10 @@ describe Ship do
       @ship.hit
       expect(@ship.health).to eql(2)
     end
+
+    it 'sinks when hit enough times' do
+      3.times { @ship.hit }
+      expect(@ship.sunk?).to be true
+    end
   end
 end
