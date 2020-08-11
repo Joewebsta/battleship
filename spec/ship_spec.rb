@@ -15,11 +15,16 @@ describe Ship do
     it 'has health equal to length' do
       expect(@ship.health).to eql(@ship.length)
     end
-  end
 
-  describe '#sunk?' do
     it 'is not sunk by default' do
       expect(@ship.sunk?).to be false
+    end
+  end
+
+  describe '#hit' do
+    it 'loses 1 health' do
+      @ship.hit
+      expect(@ship.health).to eql(2)
     end
   end
 end

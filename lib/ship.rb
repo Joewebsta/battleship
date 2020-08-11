@@ -12,4 +12,8 @@ class Ship
   def sunk?
     sunk
   end
+
+  def hit
+    self.health -= 1
+  end
 end
