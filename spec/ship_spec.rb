@@ -1,35 +1,35 @@
 require './lib/ship'
 
 describe Ship do
-  before { @ship = Ship.new('Cruiser', 3) }
+  subject { Ship.new('Cruiser', 3) }
 
   describe '#initialize' do
     it 'has a name' do
-      expect(@ship.name).to eql('Cruiser')
+      expect(subject.name).to eql('Cruiser')
     end
 
     it 'has a length' do
-      expect(@ship.length).to eql(3)
+      expect(subject.length).to eql(3)
     end
 
     it 'has health equal to length' do
-      expect(@ship.health).to eql(@ship.length)
+      expect(subject.health).to eql(subject.length)
     end
 
     it 'is not sunk by default' do
-      expect(@ship.sunk?).to be false
+      should_not be_sunk
     end
   end
 
   describe '#hit' do
     it 'loses 1 health' do
-      @ship.hit
-      expect(@ship.health).to eql(2)
+      subject.hit
+      expect(subject.health).to eql(2)
     end
 
     it 'sinks when hit enough times' do
-      3.times { @ship.hit }
-      expect(@ship.sunk?).to be true
+      3.times { subject.hit }
+      should be_sunk
     end
   end
 end
