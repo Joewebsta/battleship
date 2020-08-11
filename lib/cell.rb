@@ -10,4 +10,8 @@ class Cell
   def empty?
     @ship.nil?
   end
+
+  def place_ship(ship)
+    self.ship = ship
+  end
 end
