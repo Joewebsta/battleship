@@ -11,5 +11,9 @@ describe Cell do
     it 'does not have ship placed within it by default' do
       expect(subject.ship).to be_nil
     end
+
+    it 'is empty by default' do
+      should be_empty
+    end
   end
 end
