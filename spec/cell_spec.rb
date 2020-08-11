@@ -7,5 +7,9 @@ describe Cell do
     it 'has a coordinate' do
       expect(subject.coordinate).to eql('B4')
     end
+
+    it 'does not have ship placed within it by default' do
+      expect(subject.ship).to be_nil
+    end
   end
 end
