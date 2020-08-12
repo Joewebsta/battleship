@@ -9,7 +9,7 @@ class Cell
   end
 
   def empty?
-    @ship.nil?
+    ship.nil?
   end
 
   def fired_upon?
@@ -21,7 +21,15 @@ class Cell
   end
 
   def fire_upon
-    ship.hit
+    ship&.hit
     self.fired_upon = true
+  end
+
+  def render(reveal_ship = false)
+    return 'S' if reveal_ship
+    return 'M' if fired_upon && ship.nil?
+    return 'X' if fired_upon && ship.sunk?
+    return 'H' if fired_upon && ship
+    return '.' unless fired_upon
   end
 end

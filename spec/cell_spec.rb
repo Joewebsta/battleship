@@ -2,6 +2,7 @@ require './lib/cell'
 
 describe Cell do
   subject { Cell.new('B4') }
+  let(:ship) { Ship.new('Cruiser', 3) }
 
   describe '#initialize' do
     it 'has a coordinate' do
@@ -22,8 +23,6 @@ describe Cell do
   end
 
   describe '#place_ship' do
-    let(:ship) { Ship.new('Cruiser', 3) }
-
     it 'populates cell with ship' do
       expect(subject.place_ship(ship)).to eql(ship)
     end
@@ -35,8 +34,6 @@ describe Cell do
   end
 
   describe '#fire_upon' do
-    let(:ship) { Ship.new('Cruiser', 3) }
-
     it 'decreases ship health' do
       subject.place_ship(ship)
       subject.fire_upon
@@ -46,7 +43,35 @@ describe Cell do
     it 'fires upon cell' do
       subject.place_ship(ship)
       subject.fire_upon
-      expect(subject.fired_upon).to be_true
+      expect(subject.fired_upon).to be true
+    end
+  end
+
+  describe '#render' do
+    it "returns '.' when not fired upon" do
+      expect(subject.render).to eql('.')
+    end
+
+    it "returns 'M' when fired up and does not contain ship" do
+      subject.fire_upon
+      expect(subject.render).to eql('M')
+    end
+
+    it "returns 'H' when fired up and does not contain ship" do
+      subject.place_ship(ship)
+      subject.fire_upon
+      expect(subject.render).to eql('H')
+    end
+
+    it "returns 'X' when fired and it's ship has sunk" do
+      subject.place_ship(ship)
+      3.times { subject.fire_upon }
+      expect(subject.render).to eql('X')
+    end
+
+    it "returns 'S' when it is passed an optional boolean argument" do
+      subject.place_ship(ship)
+      expect(subject.render(true)).to eql('S')
     end
   end
 end
