@@ -14,20 +14,23 @@ class BoardCellsGenerator
 
   def generate
     1.upto(grid_cells) do |cell_num|
-      coordinate = format_coordinate
-      cells[coordinate] = coordinate
+      cells[format_coordinate] = Cell.new(format_coordinate)
       update_coordinate(cell_num)
     end
 
     cells
   end
 
+  def format_coordinate
+    "#{chars.first}#{nums.first}"
+  end
+
   def update_coordinate(cell_num)
     end_of_row?(cell_num) ? update_letter_and_num : update_num
   end
 
-  def format_coordinate
-    "#{chars.first}#{nums.first}"
+  def end_of_row?(cell_num)
+    (cell_num % rows).zero?
   end
 
   def update_letter_and_num
@@ -37,11 +40,4 @@ class BoardCellsGenerator
   def update_num
     "#{chars.first}#{nums.rotate!.first}"
   end
-
-  def end_of_row?(cell_num)
-    (cell_num % rows).zero?
-  end
 end
-
-BCGenerator = BoardCellsGenerator.new(4)
-p BCGenerator.generate
