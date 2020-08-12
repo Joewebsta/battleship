@@ -9,9 +9,9 @@ describe Cell do
       expect(subject.coordinate).to eql('B4')
     end
 
-    # it 'does not contain part of a ship' do
-    #   expect(subject.ship).to be_nil
-    # end
+    it 'does not contain part of a ship' do
+      expect(subject.ship).to be_nil
+    end
 
     it 'is empty' do
       should be_empty
