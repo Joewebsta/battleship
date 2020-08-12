@@ -6,4 +6,8 @@ class Board
   def initialize(rows)
     @cells = BoardCellsGenerator.new(rows).generate
   end
+
+  def validate_coordinate(coordinate)
+    cells.keys.include?(coordinate)
+  end
 end
