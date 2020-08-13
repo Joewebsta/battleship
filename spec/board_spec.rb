@@ -1,4 +1,5 @@
 require './lib/board'
+require './lib/ship'
 
 describe Board do
   subject { board = Board.new(4) }
@@ -28,16 +29,33 @@ describe Board do
       expect(subject.validate_coordinate('D4')).to be true
     end
 
-    it 'validates a coordinate not on the board' do
+    it 'does not validates a coordinate not on the board' do
       expect(subject.validate_coordinate('A5')).to be false
     end
 
-    it 'validates another coordinate not on the board' do
+    it 'does not validate another coordinate not on the board' do
       expect(subject.validate_coordinate('E1')).to be false
     end
 
-    it 'validates yet another coordinate not on the board' do
+    it 'does not validate yet another coordinate not on the board' do
       expect(subject.validate_coordinate('A22')).to be false
+    end
+  end
+
+  describe '#valid_placement?' do
+    let(:cruiser) { Ship.new('Cruiser', 3) }
+    let(:submarine) { Ship.new('Submarine', 2) }
+
+    it 'does not validate coordinates that do not equal ship length' do
+      expect(subject.valid_placement?(cruiser, %w[A1 A2])).to be false
+    end
+
+    it 'does not validate different coordinates that do not equal ship length' do
+      expect(subject.valid_placement?(submarine, %w[A2 A3 A4])).to be false
+    end
+
+    it 'does not validate inconsecutive coordinates' do
+      expect(subject.valid_placement?(cruiser, %w[A1 A2 A4])).to be false
     end
   end
 end
