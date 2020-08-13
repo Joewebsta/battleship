@@ -20,25 +20,25 @@ describe Board do
     end
   end
 
-  describe '#validate_coordinate' do
-    it 'validates the first coordinate on the board' do
-      expect(subject.validate_coordinate('A1')).to be true
+  describe '#valid_coordinate?' do
+    it 'ensures first coordinate on the board is valid' do
+      expect(subject.valid_coordinate?('A1')).to be true
     end
 
-    it 'validates the last coordinate on the board' do
-      expect(subject.validate_coordinate('D4')).to be true
+    it 'ensures the last coordinate on the board is valid' do
+      expect(subject.valid_coordinate?('D4')).to be true
     end
 
-    it 'does not validates a coordinate not on the board' do
-      expect(subject.validate_coordinate('A5')).to be false
+    it 'does not allow a coordinate not on the board' do
+      expect(subject.valid_coordinate?('A5')).to be false
     end
 
-    it 'does not validate another coordinate not on the board' do
-      expect(subject.validate_coordinate('E1')).to be false
+    it 'does not allow another coordinate not on the board' do
+      expect(subject.valid_coordinate?('E1')).to be false
     end
 
-    it 'does not validate yet another coordinate not on the board' do
-      expect(subject.validate_coordinate('A22')).to be false
+    it 'does not allow yet another coordinate not on the board' do
+      expect(subject.valid_coordinate?('A22')).to be false
     end
   end
 
