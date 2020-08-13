@@ -12,23 +12,34 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    return false if ship.length != coordinates.length
+    ship_length = ship.length
+    return false if ship_length != coordinates.length
 
-    row_num = Math.sqrt(cells.length).to_i
-    valid_consec_positions = []
+    tot_rows = Math.sqrt(cells.length).to_i
 
+    valid_consec_positions = consec_rows(tot_rows, ship_length) + consec_cols(tot_rows, ship_length)
+    valid_consec_positions.one? { |position| position == coordinates }
+  end
+
+  def consec_cols(tot_rows, ship_length)
+    consec_positions = []
+    1.upto(tot_rows) do |i|
+      columns = cells.keys.select { |cell| cell.include?(i.to_s) }
+      columns.each_cons(ship_length) { |consec_cells| consec_positions << consec_cells }
+    end
+
+    consec_positions
+  end
+
+  def consec_rows(tot_rows, ship_length)
     row_letter = 'A'
-    1.upto(row_num) do
+    consec_positions = []
+    1.upto(tot_rows) do
       rows = cells.keys.select { |cell| cell.include?(row_letter) }
-      rows.each_cons(3) { |consec_cells| valid_consec_positions << consec_cells }
+      rows.each_cons(ship_length) { |consec_cells| consec_positions << consec_cells }
       row_letter.next!
     end
 
-    1.upto(row_num) do |i|
-      columns = cells.keys.select { |cell| cell.include?(i.to_s) }
-      columns.each_cons(3) { |consec_cells| valid_consec_positions << consec_cells }
-    end
-
-    valid_consec_positions.any? { |consec_positions| consec_positions == coordinates }
+    consec_positions
   end
 end
