@@ -15,8 +15,16 @@ class Board
     ship_length = ship.length
     tot_rows = Math.sqrt(cells.length).to_i
 
-    return false if ship_length != coordinates.length
+    return false unless valid_length?(ship_length, coordinates)
 
+    valid_consecutive_cells?(tot_rows, ship_length, coordinates)
+  end
+
+  def valid_length?(ship_length, coordinates)
+    ship_length == coordinates.length
+  end
+
+  def valid_consecutive_cells?(tot_rows, ship_length, coordinates)
     valid_consec_positions = consec_rows(tot_rows, ship_length) + consec_cols(tot_rows, ship_length)
     valid_consec_positions.one? { |position| position == coordinates }
   end
