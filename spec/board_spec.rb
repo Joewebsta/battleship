@@ -3,6 +3,8 @@ require './lib/ship'
 
 describe Board do
   subject { board = Board.new(4) }
+  let(:cruiser) { Ship.new('Cruiser', 3) }
+  let(:submarine) { Ship.new('Submarine', 2) }
 
   describe '#initialize' do
     it 'creates a cells hash' do
@@ -43,9 +45,6 @@ describe Board do
   end
 
   describe '#valid_placement?' do
-    let(:cruiser) { Ship.new('Cruiser', 3) }
-    let(:submarine) { Ship.new('Submarine', 2) }
-
     it 'does not allow coordinates shorter than ship length' do
       expect(subject.valid_placement?(cruiser, %w[A1 A2])).to be false
     end
@@ -84,6 +83,20 @@ describe Board do
 
     it 'allows another ship with valid coordinates' do
       expect(subject.valid_placement?(cruiser, %w[B1 C1 D1])).to be true
+    end
+  end
+
+  describe '#place' do
+    it 'places the same ship object in multiple cells' do
+      subject.place(cruiser, %w[A1 A2 A3])
+      expect(subject.cells['A1'].ship.object_id).to eql(cruiser.object_id)
+      expect(subject.cells['A2'].ship.object_id).to eql(cruiser.object_id)
+      expect(subject.cells['A3'].ship.object_id).to eql(cruiser.object_id)
+    end
+
+    it 'confirms the first and last cells hold the same ship' do
+      subject.place(cruiser, %w[A1 A2 A3])
+      expect(subject.cells['A1'].ship.object_id).to eql(subject.cells['A3'].ship.object_id)
     end
   end
 end

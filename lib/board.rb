@@ -48,4 +48,12 @@ class Board
   def create_consec_row_col_cell_arrs(row_col_arrays, ship_length)
     row_col_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
   end
+
+  def place(ship, coordinates)
+    return unless valid_placement?(ship, coordinates)
+
+    coordinates.each do |coordinate|
+      cells[coordinate].place_ship(ship)
+    end
+  end
 end
