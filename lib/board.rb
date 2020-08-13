@@ -23,38 +23,29 @@ class Board
 
   def consec_cols(tot_rows, ship_length)
     consec_positions = 1.upto(tot_rows).map do |i|
-      column_arrays = create_arr_of_column(i)
-      create_consec_cell_arrs(column_arrays, ship_length)
+      column_arrays = create_arr_of_row_col(i)
+      create_consec_row_col_cell_arrs(column_arrays, ship_length)
     end
 
     consec_positions.flatten(1)
   end
-
-  def create_arr_of_column(col_num)
-    cells.keys.select { |cell| cell.end_with?(col_num.to_s) }
-  end
-
-  def create_consec_cell_arrs(column_arrays, ship_length)
-    column_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
-  end
-
-  ##############################################
 
   def consec_rows(tot_rows, ship_length)
     row_letter = 'A'
     consec_positions = 1.upto(tot_rows).map do
-      row_arrays = create_arr_of_row(row_letter)
+      row_arrays = create_arr_of_row_col(row_letter)
       row_letter.next!
-      create_consec_row_cell_arrs(row_arrays, ship_length)
+      create_consec_row_col_cell_arrs(row_arrays, ship_length)
     end
+
     consec_positions.flatten(1)
   end
 
-  def create_arr_of_row(row_letter)
-    cells.keys.select { |cell| cell.start_with?(row_letter) }
+  def create_arr_of_row_col(char)
+    cells.keys.select { |cell| cell.include?(char.to_s) }
   end
 
-  def create_consec_row_cell_arrs(column_arrays, ship_length)
-    column_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
+  def create_consec_row_col_cell_arrs(row_col_arrays, ship_length)
+    row_col_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
   end
 end
