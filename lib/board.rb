@@ -38,15 +38,23 @@ class Board
     column_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
   end
 
+  ##############################################
+
   def consec_rows(tot_rows, ship_length)
     row_letter = 'A'
-    consec_positions = []
-    1.upto(tot_rows) do
-      rows = cells.keys.select { |cell| cell.include?(row_letter) }
-      rows.each_cons(ship_length) { |consec_cells| consec_positions << consec_cells }
+    consec_positions = 1.upto(tot_rows).map do
+      row_arrays = create_arr_of_row(row_letter)
       row_letter.next!
+      create_consec_row_cell_arrs(row_arrays, ship_length)
     end
+    consec_positions.flatten(1)
+  end
 
-    consec_positions
+  def create_arr_of_row(row_letter)
+    cells.keys.select { |cell| cell.start_with?(row_letter) }
+  end
+
+  def create_consec_row_cell_arrs(column_arrays, ship_length)
+    column_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
   end
 end
