@@ -15,9 +15,17 @@ class Board
     ship_length = ship.length
     tot_rows = Math.sqrt(cells.length).to_i
 
-    return false unless valid_length?(ship_length, coordinates)
+    if valid_length?(ship_length, coordinates)
+      true
+    else
+      false
+    end
 
-    valid_consecutive_cells?(tot_rows, ship_length, coordinates)
+    if valid_consecutive_cells?(tot_rows, ship_length, coordinates)
+      true
+    else
+      false
+    end
   end
 
   def valid_length?(ship_length, coordinates)
@@ -58,7 +66,7 @@ class Board
   end
 
   def place(ship, coordinates)
-    return unless valid_placement?(ship, coordinates)
+    return false unless valid_placement?(ship, coordinates)
 
     coordinates.each do |coordinate|
       cells[coordinate].place_ship(ship)
