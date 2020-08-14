@@ -32,70 +32,35 @@ class Board
     coord_letters = coords_arr.map { |coord| coord[0] }
     coord_nums = coords_arr.map { |coord| coord[1] }
 
-    # all coords from same row
-    if coord_letters.uniq.length == 1
-      coord_nums.each_cons(2).all? { |coord_num1, coord_num2| coord_num1.ord + 1 == coord_num2.ord }
-    # all coords from same column
-    elsif coord_nums.uniq.length == 1
-      coord_letters.each_cons(2).all? { |coord_letter1, coord_letter2| coord_letter1.ord + 1 == coord_letter2.ord }
+    if identical_coord_letters?(coord_letters) # row coordinates
+      consec_nums?(coord_nums)
+    elsif identical_coord_nums?(coord_nums) # columm coordinates
+      consec_letters?(coord_letters)
     else
       false
     end
   end
 
-  #   def valid_placement?(ship, coordinates)
-  #     ship_length = ship.length
-  #     tot_rows = Math.sqrt(cells.length).to_i
+  # *********** HELPER METHODS ***********
+  def identical_coord_letters?(coord_letters)
+    coord_letters.uniq.length == 1
+  end
 
-  #     if valid_length?(ship_length, coordinates)
-  #       true
-  #     else
-  #       false
-  #     end
+  def identical_coord_nums?(coord_nums)
+    coord_nums.uniq.length == 1
+  end
 
-  #     if valid_consecutive_cells?(tot_rows, ship_length, coordinates)
-  #       true
-  #     else
-  #       false
-  #     end
-  #   end
+  def consec_nums?(coord_nums)
+    coord_nums.each_cons(2).all? do |coord_num1, coord_num2|
+      coord_num1.ord + 1 == coord_num2.ord
+    end
+  end
 
-  #   def valid_length?(ship_length, coordinates)
-  #     ship_length == coordinates.length
-  #   end
-
-  #   def valid_consecutive_cells?(tot_rows, ship_length, coordinates)
-  #     valid_consec_positions = consec_rows(tot_rows, ship_length) + consec_cols(tot_rows, ship_length)
-  #     valid_consec_positions.one? { |position| position == coordinates }
-  #   end
-
-  #   def consec_cols(tot_rows, ship_length)
-  #     consec_positions = 1.upto(tot_rows).map do |i|
-  #       column_arrays = create_arr_of_row_col(i)
-  #       create_consec_row_col_cell_arrs(column_arrays, ship_length)
-  #     end
-
-  #     consec_positions.flatten(1)
-  #   end
-
-  #   def consec_rows(tot_rows, ship_length)
-  #     row_letter = 'A'
-  #     consec_positions = 1.upto(tot_rows).map do
-  #       row_arrays = create_arr_of_row_col(row_letter)
-  #       row_letter.next!
-  #       create_consec_row_col_cell_arrs(row_arrays, ship_length)
-  #     end
-
-  #     consec_positions.flatten(1)
-  #   end
-
-  #   def create_arr_of_row_col(char)
-  #     cells.keys.select { |cell| cell.include?(char.to_s) }
-  #   end
-
-  #   def create_consec_row_col_cell_arrs(row_col_arrays, ship_length)
-  #     row_col_arrays.each_cons(ship_length).map { |consec_cells| consec_cells }
-  #   end
+  def consec_letters?(coord_letters)
+    coord_letters.each_cons(2).all? do |coord_letter1, coord_letter2|
+      coord_letter1.ord + 1 == coord_letter2.ord
+    end
+  end
 
   #   def place(ship, coordinates)
   #     return false unless valid_placement?(ship, coordinates)
