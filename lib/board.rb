@@ -16,9 +16,9 @@ class Board
     end
   end
 
-  #   def valid_coordinate?(coordinate)
-  #     cells.keys.include?(coordinate)
-  #   end
+  def valid_coordinate?(coordinate)
+    cells.key?(coordinate)
+  end
 
   #   def valid_placement?(ship, coordinates)
   #     ship_length = ship.length
