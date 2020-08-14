@@ -24,6 +24,16 @@ class Board
     valid_length?(ship, coords_arr) && consecutive_coordinates?(coords_arr)
   end
 
+  def place(ship, coords_arr)
+    return unless valid_placement?(ship, coords_arr)
+
+    coords_arr.each do |coord|
+      cells[coord].place_ship(ship)
+    end
+  end
+
+  # *********** HELPER METHODS *********** #
+
   def valid_length?(ship, coords_arr)
     ship.length == coords_arr.length
   end
@@ -41,7 +51,6 @@ class Board
     end
   end
 
-  # *********** HELPER METHODS ***********
   def identical_coord_letters?(coord_letters)
     coord_letters.uniq.length == 1
   end
@@ -61,12 +70,4 @@ class Board
       coord_letter1.ord + 1 == coord_letter2.ord
     end
   end
-
-  #   def place(ship, coordinates)
-  #     return false unless valid_placement?(ship, coordinates)
-
-  #     coordinates.each do |coordinate|
-  #       cells[coordinate].place_ship(ship)
-  #     end
-  #   end
 end
