@@ -10,22 +10,37 @@ class Board
   def create_cells(num)
     ('A'..(64 + num).chr).each_with_object({}) do |letter, cells|
       (1..num).each do |number|
-        coordinate = "#{letter}#{number}"
-        cells[coordinate] = Cell.new(coordinate)
+        coord = "#{letter}#{number}"
+        cells[coord] = Cell.new(coord)
       end
     end
   end
 
-  def valid_coordinate?(coordinate)
-    cells.key?(coordinate)
+  def valid_coordinate?(coord)
+    cells.key?(coord)
   end
 
-  def valid_placement?(ship, coordinates_arr)
-    valid_length?(ship, coordinates_arr)
+  def valid_placement?(ship, coords_arr)
+    valid_length?(ship, coords_arr) && consecutive_coordinates?(coords_arr)
   end
 
-  def valid_length?(ship, coordinates_arr)
-    ship.length == coordinates_arr.length
+  def valid_length?(ship, coords_arr)
+    ship.length == coords_arr.length
+  end
+
+  def consecutive_coordinates?(coords_arr)
+    coord_letters = coords_arr.map { |coord| coord[0] }
+    coord_nums = coords_arr.map { |coord| coord[1] }
+
+    # all coords from same row
+    if coord_letters.uniq.length == 1
+      coord_nums.each_cons(2).all? { |coord_num1, coord_num2| coord_num1.ord + 1 == coord_num2.ord }
+    # all coords from same column
+    elsif coord_nums.uniq.length == 1
+      coord_letters.each_cons(2).all? { |coord_letter1, coord_letter2| coord_letter1.ord + 1 == coord_letter2.ord }
+    else
+      false
+    end
   end
 
   #   def valid_placement?(ship, coordinates)
