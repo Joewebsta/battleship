@@ -20,6 +20,14 @@ class Board
     cells.key?(coordinate)
   end
 
+  def valid_placement?(ship, coordinates_arr)
+    valid_length?(ship, coordinates_arr)
+  end
+
+  def valid_length?(ship, coordinates_arr)
+    ship.length == coordinates_arr.length
+  end
+
   #   def valid_placement?(ship, coordinates)
   #     ship_length = ship.length
   #     tot_rows = Math.sqrt(cells.length).to_i
