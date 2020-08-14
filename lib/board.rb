@@ -21,7 +21,9 @@ class Board
   end
 
   def valid_placement?(ship, coords_arr)
-    valid_length?(ship, coords_arr) && consecutive_coordinates?(coords_arr)
+    valid_length?(ship, coords_arr) &&
+      consecutive_coordinates?(coords_arr) &&
+      not_overlapping?(coords_arr)
   end
 
   def place(ship, coords_arr)
@@ -69,5 +71,9 @@ class Board
     coord_letters.each_cons(2).all? do |coord_letter1, coord_letter2|
       coord_letter1.ord + 1 == coord_letter2.ord
     end
+  end
+
+  def not_overlapping?(coords_arr)
+    coords_arr.all? { |coord| cells[coord].empty? }
   end
 end
