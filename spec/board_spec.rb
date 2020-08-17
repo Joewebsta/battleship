@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/ship'
+require './lib/cell'
 
 describe Board do
   subject { board = Board.new(4) }
@@ -84,6 +85,11 @@ describe Board do
     it 'allows another ship with valid coordinates' do
       expect(subject.valid_placement?(cruiser, %w[B1 C1 D1])).to be true
     end
+
+    it 'does not allow overlapping ships' do
+      subject.place(cruiser, %w[A1 A2 A3])
+      expect(subject.valid_placement?(submarine, %w[A1 A2])).to be false
+    end
   end
 
   describe '#place' do
@@ -97,6 +103,31 @@ describe Board do
     it 'confirms the first and last cells hold the same ship' do
       subject.place(cruiser, %w[A1 A2 A3])
       expect(subject.cells['A1'].ship.object_id).to eql(subject.cells['A3'].ship.object_id)
+    end
+  end
+
+  describe '#render' do
+    it 'renders a starting board' do
+      rendered_board =
+        "  1 2 3 4 \n" \
+        "A . . . . \n" \
+        "B . . . . \n" \
+        "C . . . . \n" \
+        "D . . . . \n"
+      expect(subject.render).to eql(rendered_board)
+    end
+
+    it 'renders a starting board and reveals the placement of ships' do
+      subject.place(cruiser, %w[A1 A2 A3])
+      subject.place(submarine, %w[C2 D2])
+
+      rendered_board =
+        "  1 2 3 4 \n" \
+        "A S S S . \n" \
+        "B . . . . \n" \
+        "C . S . . \n" \
+        "D . S . . \n"
+      expect(subject.render(true)).to eql(rendered_board)
     end
   end
 end

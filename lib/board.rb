@@ -34,6 +34,15 @@ class Board
     end
   end
 
+  def render(reveal_ship = false)
+    board_str = '  1 2 3 4 '
+    cells.values.each_with_index do |cell, idx|
+      board_str += "\n#{cell.coordinate[0]} " if (idx % 4).zero?
+      board_str += "#{cell.render(reveal_ship)} "
+    end
+    board_str += "\n"
+  end
+
   # *********** HELPER METHODS *********** #
 
   def valid_length?(ship, coords_arr)
