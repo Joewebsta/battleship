@@ -18,6 +18,3 @@ class Game
 
   def play_game; end
 end
-
-g = Game.new
-g.display_menu

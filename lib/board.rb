@@ -27,7 +27,7 @@ class Board
   end
 
   def place(ship, coords_arr)
-    return unless valid_placement?(ship, coords_arr)
+    return false unless valid_placement?(ship, coords_arr)
 
     coords_arr.each do |coord|
       cells[coord].place_ship(ship)
@@ -83,6 +83,10 @@ class Board
   end
 
   def not_overlapping?(coords_arr)
-    coords_arr.all? { |coord| cells[coord].empty? }
+    coords_arr.all? do |coord|
+      return false if cells[coord].nil?
+
+      cells[coord].empty?
+    end
   end
 end
