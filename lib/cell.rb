@@ -21,6 +21,7 @@ class Cell
   end
 
   def fire_upon
+    # ship.hit if ship
     ship&.hit
     self.fired_upon = true
   end
