@@ -3,7 +3,7 @@ require './lib/ship'
 require './lib/cell'
 
 describe Board do
-  subject { board = Board.new(4) }
+  subject { Board.new(4) }
   let(:cruiser) { Ship.new('Cruiser', 3) }
   let(:submarine) { Ship.new('Submarine', 2) }
 
