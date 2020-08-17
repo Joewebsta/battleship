@@ -144,5 +144,38 @@ describe Board do
         "D . S . . \n"
       expect(subject.render(true)).to eql(rendered_board)
     end
+
+    it 'renders hits' do
+      subject.place(cruiser, %w[A1 A2 A3])
+      subject.place(submarine, %w[C2 D2])
+      subject.cells['A2'].fire_upon
+      subject.cells['C2'].fire_upon
+
+      rendered_board =
+        "  1 2 3 4 \n" \
+        "A S H S . \n" \
+        "B . . . . \n" \
+        "C . H . . \n" \
+        "D . S . . \n"
+      expect(subject.render(true)).to eql(rendered_board)
+    end
+
+    it 'renders sunken ships' do
+      subject.place(cruiser, %w[A1 A2 A3])
+      subject.place(submarine, %w[C2 D2])
+      subject.cells['A1'].fire_upon
+      subject.cells['A2'].fire_upon
+      subject.cells['A3'].fire_upon
+      subject.cells['C2'].fire_upon
+      subject.cells['D2'].fire_upon
+
+      rendered_board =
+        "  1 2 3 4 \n" \
+        "A X X X . \n" \
+        "B . . . . \n" \
+        "C . X . . \n" \
+        "D . X . . \n"
+      expect(subject.render(true)).to eql(rendered_board)
+    end
   end
 end
