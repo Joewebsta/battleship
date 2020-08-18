@@ -29,6 +29,23 @@ class Game
     end
   end
 
+  def play_game
+    place_computer_ships
+    place_player_ships
+    play_turn
+  end
+
+  def play_turn
+    display_boards
+  end
+
+  def display_boards
+    puts '=============COMPUTER BOARD============='
+    puts computer.board.render
+    puts '==============PLAYER BOARD=============='
+    puts player.board.render(true)
+  end
+
   def place_computer_ships
     computer.place_ships
     puts
@@ -38,11 +55,6 @@ class Game
 
   def place_player_ships
     player.place_ships
-  end
-
-  def play_game
-    place_computer_ships
-    place_player_ships
   end
 end
 
