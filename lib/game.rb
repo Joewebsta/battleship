@@ -62,7 +62,6 @@ class Game
       end
       puts 'Please enter a valid coordinate:'
     end
-
     shot_coordinate
   end
 
@@ -74,20 +73,33 @@ class Game
   end
 
   def display_turn_results
+    puts display_player_results
+    puts display_computer_results
+  end
+
+  def display_player_results
     last_shot_coord = player.shots_taken.last
     last_cell = computer.cells[last_shot_coord]
     cell_render = last_cell.render
 
-    if cell_render == 'M'
-      puts "Your shot on #{last_shot_coord} was a miss."
-    elsif cell_render == 'H'
-      puts "Your shot on #{last_shot_coord} was a hit."
-    else
-      puts "Your shot on #{last_shot_coord} was a hit. You sunk the computer's #{last_cell.ship.name}."
-    end
+    output = "Your shot on #{last_shot_coord} was a "
+    output += 'miss.' if cell_render == 'M'
+    output += 'hit.' if cell_render.include?('H') || cell_render.include?('X')
+    output += " You sunk the computer's #{last_cell.ship.name}." if cell_render == 'X'
+    output
   end
 
-  def shot_result(_participant); end
+  def display_computer_results
+    last_shot_coord = computer.shots_taken.last
+    last_cell = player.cells[last_shot_coord]
+    cell_render = last_cell.render
+
+    output = "The computer's shot on #{last_shot_coord} was a "
+    output += 'miss.' if cell_render == 'M'
+    output += 'hit.' if cell_render.include?('H') || cell_render.include?('X')
+    output += " It sunk your #{last_cell.ship.name}." if cell_render == 'X'
+    output
+  end
 
   def place_computer_ships
     computer.place_ships
