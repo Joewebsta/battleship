@@ -45,6 +45,7 @@ class Game
       display_boards
       player.shots_taken << player_shot
       computer.shots_taken << computer_shot
+      computer_shot
       display_turn_results
     end
   end
@@ -61,6 +62,12 @@ class Game
 
     loop do
       shot_coordinate = gets.chomp
+
+      if coord_already_shot?(shot_coordinate)
+        puts 'You have already fired upon this coordinate. Please provide another coordinate:'
+        next
+      end
+
       if player.board.valid_coordinate?(shot_coordinate)
         computer.cells[shot_coordinate].fire_upon
         return shot_coordinate
@@ -118,6 +125,10 @@ class Game
 
   def place_player_ships
     player.place_ships
+  end
+
+  def coord_already_shot?(shot_coordinate)
+    player.shots_taken.include?(shot_coordinate)
   end
 end
 
