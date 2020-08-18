@@ -1,4 +1,13 @@
+require './lib/computer'
+
 class Game
+  attr_accessor :computer
+
+  def initialize
+    @computer = Computer.new
+    display_menu
+  end
+
   def display_menu
     puts 'Welcome to BATTLESHIP'
     play_or_quit
@@ -9,12 +18,25 @@ class Game
       puts 'Enter p to play. Enter q to quit.'
       user_selection = gets.chomp
 
-      break if user_selection == 'q'
+      if user_selection == 'p'
+        play_game
+        break
+      end
 
-      play_game if user_selection == 'p'
-      break
+      break if user_selection == 'q'
     end
   end
 
-  def play_game; end
+  def place_computer_ships
+    computer.place_ships
+    puts 'I have laid out my ships on the grid.'
+  end
+
+  def play_game
+    place_computer_ships
+    place_player_ships
+  end
 end
+
+# game = Game.new
+# puts game.computer.board.render(true)
