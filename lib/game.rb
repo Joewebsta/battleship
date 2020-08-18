@@ -37,6 +37,8 @@ class Game
 
   def play_turn
     display_boards
+    player.shots_taken << player_shot
+    # computer.shots_taken << computer_shot
   end
 
   def display_boards
@@ -44,6 +46,21 @@ class Game
     puts computer.board.render
     puts '==============PLAYER BOARD=============='
     puts player.board.render(true)
+  end
+
+  def player_shot
+    puts 'Enter the coordinate for your shot:'
+    shot_coordinate = gets.chomp
+
+    loop do
+      if player.board.valid_coordinate?(shot_coordinate)
+        player.cells[shot_coordinate].fire_upon
+        break
+      end
+      puts 'Please enter a valid coordinate:'
+    end
+
+    shot_coordinate
   end
 
   def place_computer_ships
@@ -59,3 +76,5 @@ class Game
 end
 
 Game.new
+
+# p player.cells[player.shots_taken.last].render
