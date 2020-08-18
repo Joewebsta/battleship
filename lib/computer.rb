@@ -21,7 +21,6 @@ class Computer
   def place_ship(ship)
     ship_length = ship.length
     loop do
-      # CREATE ARRAY OF ALL COORDINATES AND POP THE LAST VALUE AFTER EVERY RAND_COORD IS CREATED
       rand_coord = cells.values.sample.coordinate
       coords_arr = if rand(2).positive?
                      vert_coords(rand_coord, ship_length)
@@ -34,28 +33,31 @@ class Computer
       end
     end
   end
-end
 
-# ***************** HELPER METHODS *****************
-
-def vert_coords(rand_coord, ship_length)
-  coords_arr = []
-  letter = rand_coord[0]
-  digit = rand_coord[1]
-  ship_length.times do
-    coords_arr << letter + digit
-    letter = letter.next
+  def lost?
+    cruiser.sunk? && submarine.sunk?
   end
-  coords_arr
-end
 
-def horiz_coords(rand_coord, ship_length)
-  coords_arr = []
-  ship_length.times do
-    coords_arr << rand_coord
-    rand_coord = rand_coord.next
+  # ***************** HELPER METHODS *****************
+
+  def vert_coords(rand_coord, ship_length)
+    coords_arr = []
+    letter = rand_coord[0]
+    digit = rand_coord[1]
+    ship_length.times do
+      coords_arr << letter + digit
+      letter = letter.next
+    end
+    coords_arr
   end
-  coords_arr
-end
 
+  def horiz_coords(rand_coord, ship_length)
+    coords_arr = []
+    ship_length.times do
+      coords_arr << rand_coord
+      rand_coord = rand_coord.next
+    end
+    coords_arr
+  end
+end
 # comp = Computer.new

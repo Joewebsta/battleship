@@ -11,7 +11,7 @@ class Game
   end
 
   def display_menu
-    puts 'Welcome to BATTLESHIP'
+    puts "\nWelcome to BATTLESHIP"
     play_or_quit
   end
 
@@ -37,6 +37,11 @@ class Game
 
   def play_turn
     loop do
+      if player.lost? || computer.lost?
+        puts game_over
+        break
+      end
+
       display_boards
       player.shots_taken << player_shot
       computer.shots_taken << computer_shot
@@ -46,23 +51,22 @@ class Game
 
   def display_boards
     puts '=============COMPUTER BOARD============='
-    puts computer.board.render
+    puts computer.board.render(true)
     puts '==============PLAYER BOARD=============='
     puts player.board.render(true)
   end
 
   def player_shot
-    puts 'Enter the coordinate for your shot:'
-    shot_coordinate = gets.chomp
+    puts "\nEnter the coordinate for your shot:"
 
     loop do
+      shot_coordinate = gets.chomp
       if player.board.valid_coordinate?(shot_coordinate)
         computer.cells[shot_coordinate].fire_upon
-        break
+        return shot_coordinate
       end
       puts 'Please enter a valid coordinate:'
     end
-    shot_coordinate
   end
 
   def computer_shot
@@ -82,7 +86,7 @@ class Game
     last_cell = computer.cells[last_shot_coord]
     cell_render = last_cell.render
 
-    output = "Your shot on #{last_shot_coord} was a "
+    output = "\nYour shot on #{last_shot_coord} was a "
     output += 'miss.' if cell_render == 'M'
     output += 'hit.' if cell_render.include?('H') || cell_render.include?('X')
     output += " You sunk the computer's #{last_cell.ship.name}." if cell_render == 'X'
@@ -101,10 +105,14 @@ class Game
     output
   end
 
+  def game_over
+    player.lost? ? "\nThe computer won!\n" : "\nYou won!\n"
+  end
+
   def place_computer_ships
     computer.place_ships
     puts
-    puts 'I have laid out my ships on the grid.'
+    puts 'The computer has laid out its ships on the grid.'
     puts
   end
 
