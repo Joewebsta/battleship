@@ -2,13 +2,15 @@ require './lib/board'
 require './lib/ship'
 
 class Computer
-  attr_reader :board, :cells, :cruiser, :submarine
+  attr_reader :board, :cells, :cruiser, :submarine, :shots_taken, :remaining_coordinates
 
   def initialize
     @board = Board.new
     @cells = board.cells
     @cruiser = Ship.new('Cruiser', 3)
     @submarine = Ship.new('Submarine', 2)
+    @shots_taken = []
+    @remaining_coordinates = cells.keys
   end
 
   def place_ships
@@ -57,5 +59,3 @@ def horiz_coords(rand_coord, ship_length)
 end
 
 # comp = Computer.new
-# comp.place_ships
-# p comp.board.cells.values

@@ -38,7 +38,7 @@ class Game
   def play_turn
     display_boards
     player.shots_taken << player_shot
-    # computer.shots_taken << computer_shot
+    computer.shots_taken << computer_shot
   end
 
   def display_boards
@@ -54,12 +54,19 @@ class Game
 
     loop do
       if player.board.valid_coordinate?(shot_coordinate)
-        player.cells[shot_coordinate].fire_upon
+        computer.cells[shot_coordinate].fire_upon
         break
       end
       puts 'Please enter a valid coordinate:'
     end
 
+    shot_coordinate
+  end
+
+  def computer_shot
+    shot_coordinate = computer.remaining_coordinates.sample
+    player.cells[shot_coordinate].fire_upon
+    computer.remaining_coordinates.delete(shot_coordinate)
     shot_coordinate
   end
 
