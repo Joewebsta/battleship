@@ -1,10 +1,12 @@
 require './lib/computer'
+require './lib/player'
 
 class Game
-  attr_accessor :computer
+  attr_accessor :computer, :player
 
   def initialize
     @computer = Computer.new
+    @player = Player.new
     display_menu
   end
 
@@ -18,18 +20,24 @@ class Game
       puts 'Enter p to play. Enter q to quit.'
       user_selection = gets.chomp
 
-      if user_selection == 'p'
+      if user_selection.downcase == 'p'
         play_game
         break
       end
 
-      break if user_selection == 'q'
+      break if user_selection.downcase == 'q'
     end
   end
 
   def place_computer_ships
     computer.place_ships
+    puts
     puts 'I have laid out my ships on the grid.'
+    puts
+  end
+
+  def place_player_ships
+    player.place_ships
   end
 
   def play_game
@@ -38,5 +46,4 @@ class Game
   end
 end
 
-# game = Game.new
-# puts game.computer.board.render(true)
+Game.new

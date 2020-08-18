@@ -41,6 +41,7 @@ class Board
       board_str += "#{cell.render(reveal_ship)} "
     end
     board_str += "\n"
+    board_str
   end
 
   # *********** HELPER METHODS *********** #
