@@ -36,9 +36,12 @@ class Game
   end
 
   def play_turn
-    display_boards
-    player.shots_taken << player_shot
-    computer.shots_taken << computer_shot
+    loop do
+      display_boards
+      player.shots_taken << player_shot
+      computer.shots_taken << computer_shot
+      display_turn_results
+    end
   end
 
   def display_boards
@@ -69,6 +72,22 @@ class Game
     computer.remaining_coordinates.delete(shot_coordinate)
     shot_coordinate
   end
+
+  def display_turn_results
+    last_shot_coord = player.shots_taken.last
+    last_cell = computer.cells[last_shot_coord]
+    cell_render = last_cell.render
+
+    if cell_render == 'M'
+      puts "Your shot on #{last_shot_coord} was a miss."
+    elsif cell_render == 'H'
+      puts "Your shot on #{last_shot_coord} was a hit."
+    else
+      puts "Your shot on #{last_shot_coord} was a hit. You sunk the computer's #{last_cell.ship.name}."
+    end
+  end
+
+  def shot_result(_participant); end
 
   def place_computer_ships
     computer.place_ships
