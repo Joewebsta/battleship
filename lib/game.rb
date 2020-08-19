@@ -45,14 +45,13 @@ class Game
       display_boards
       player.shots_taken << player_shot
       computer.shots_taken << computer_shot
-      computer_shot
       display_turn_results
     end
   end
 
   def display_boards
     puts '=============COMPUTER BOARD============='
-    puts computer.board.render(true)
+    puts computer.board.render
     puts '==============PLAYER BOARD=============='
     puts player.board.render(true)
   end
@@ -131,7 +130,3 @@ class Game
     player.shots_taken.include?(shot_coordinate)
   end
 end
-
-Game.new
-
-# p player.cells[player.shots_taken.last].render
