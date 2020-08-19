@@ -7,26 +7,6 @@ class Game
   def initialize
     @computer = Computer.new
     @player = Player.new
-    display_menu
-  end
-
-  def display_menu
-    puts "\nWelcome to BATTLESHIP"
-    play_or_quit
-  end
-
-  def play_or_quit
-    loop do
-      puts 'Enter p to play. Enter q to quit.'
-      user_selection = gets.chomp
-
-      if user_selection.downcase == 'p'
-        play_game
-        break
-      end
-
-      break if user_selection.downcase == 'q'
-    end
   end
 
   def play_game
@@ -39,6 +19,7 @@ class Game
     loop do
       if player.lost? || computer.lost?
         puts game_over
+        puts
         break
       end
 

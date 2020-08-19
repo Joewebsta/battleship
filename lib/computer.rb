@@ -60,4 +60,3 @@ class Computer
     coords_arr
   end
 end
-# comp = Computer.new
